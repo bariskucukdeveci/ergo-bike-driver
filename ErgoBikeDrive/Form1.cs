@@ -36,6 +36,8 @@ namespace ErgoBikeDrive
                 MessageBox.Show("No ports recognized");
                 onOffSwitch.Enabled = false;
                 onOffSwitch.BackColor = SystemColors.ControlDark;
+                lblMessage.Text = "Connect appropriate ports to start!";
+                lblMessage.ForeColor = Color.Red;
             }
             lblBikeImg.Enabled = false;
             if (!onOffState)
@@ -61,11 +63,15 @@ namespace ErgoBikeDrive
                 string s = txtPower.Text;
                 s = s.PadLeft(3, '0');
                 byte[] powerMessage = aa.GetBytes(s);
+                if (!myPort.IsOpen)
+                    myPort.Open();
                 if (myPort.IsOpen)
                 {
                     myPort.Write(powerStartMessage, 0, powerStartMessage.Length);
                     myPort.Write(crMessage, 0, powerMessage.Length);
                     myPort.Write(crMessage, 0, crMessage.Length);
+                    lblMessage.Text = "Power message is sent...";
+                    lblMessage.ForeColor = Color.Lime;
                 }
             }
         }
@@ -108,12 +114,16 @@ namespace ErgoBikeDrive
                 onOffState = true;
                 onOffSwitch.Text = "Stop";
                 txtPower.Enabled = true;
+                if (!myPort.IsOpen)
+                    myPort.Open();
                 if (myPort.IsOpen)
                 {
                     myPort.Write(startMessage, 0, startMessage.Length);
                     myPort.Write(crMessage, 0, crMessage.Length);
+                    lblMessage.Text = "Bike is started...";
+                    lblMessage.ForeColor = Color.Lime;
                 }
-                
+
             }
             else
             { //Stopping the Bike.
@@ -128,6 +138,8 @@ namespace ErgoBikeDrive
                 
                 byte[] zeroPowerMessage = aa.GetBytes("000");
                 byte[] powerStartMessage = aa.GetBytes("W");
+                if (!myPort.IsOpen)
+                    myPort.Open();
                 if (myPort.IsOpen)
                 {
                     //Zero power send first
@@ -137,8 +149,10 @@ namespace ErgoBikeDrive
                     //Stop message sent
                     myPort.Write(stopMessage, 0, stopMessage.Length);
                     myPort.Write(crMessage, 0, crMessage.Length);
+                    lblMessage.Text = "Bike is stopped...";
+                    lblMessage.ForeColor = Color.Lime;
                 }
-                
+
             }
         }
 
@@ -146,5 +160,7 @@ namespace ErgoBikeDrive
         {
             myPort.PortName = comboPorts.SelectedItem.ToString();
         }
+
+        
     }
 }

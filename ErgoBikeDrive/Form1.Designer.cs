@@ -36,13 +36,14 @@
             this.onOffSwitch = new System.Windows.Forms.Button();
             this.lblPorts = new System.Windows.Forms.Label();
             this.comboPorts = new System.Windows.Forms.ComboBox();
+            this.lblMessage = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblPower
             // 
             this.lblPower.AutoSize = true;
             this.lblPower.Font = new System.Drawing.Font("Cambria", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.lblPower.Location = new System.Drawing.Point(413, 226);
+            this.lblPower.Location = new System.Drawing.Point(413, 143);
             this.lblPower.Name = "lblPower";
             this.lblPower.Size = new System.Drawing.Size(95, 33);
             this.lblPower.TabIndex = 0;
@@ -54,7 +55,7 @@
             this.btnSend.Enabled = false;
             this.btnSend.Font = new System.Drawing.Font("Impact", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSend.ForeColor = System.Drawing.Color.White;
-            this.btnSend.Location = new System.Drawing.Point(415, 295);
+            this.btnSend.Location = new System.Drawing.Point(415, 212);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(234, 59);
             this.btnSend.TabIndex = 1;
@@ -65,7 +66,7 @@
             // txtPower
             // 
             this.txtPower.Font = new System.Drawing.Font("Cambria", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.txtPower.Location = new System.Drawing.Point(521, 218);
+            this.txtPower.Location = new System.Drawing.Point(521, 135);
             this.txtPower.Name = "txtPower";
             this.txtPower.Size = new System.Drawing.Size(128, 46);
             this.txtPower.TabIndex = 2;
@@ -113,12 +114,22 @@
             this.comboPorts.TabIndex = 7;
             this.comboPorts.SelectedIndexChanged += new System.EventHandler(this.comboPorts_SelectedIndexChanged);
             // 
+            // lblMessage
+            // 
+            this.lblMessage.AutoSize = true;
+            this.lblMessage.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.lblMessage.Location = new System.Drawing.Point(416, 302);
+            this.lblMessage.Name = "lblMessage";
+            this.lblMessage.Size = new System.Drawing.Size(0, 20);
+            this.lblMessage.TabIndex = 8;
+            // 
             // myForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(737, 452);
+            this.Controls.Add(this.lblMessage);
             this.Controls.Add(this.comboPorts);
             this.Controls.Add(this.lblPorts);
             this.Controls.Add(this.onOffSwitch);
@@ -145,6 +156,7 @@
         private System.Windows.Forms.Button onOffSwitch;
         private System.Windows.Forms.Label lblPorts;
         private System.Windows.Forms.ComboBox comboPorts;
+        private System.Windows.Forms.Label lblMessage;
     }
 }
 
