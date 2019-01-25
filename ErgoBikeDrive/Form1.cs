@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,7 +14,7 @@ namespace ErgoBikeDrive
     public partial class myForm : Form
     {
         private bool onOffState = false;
-        System.IO.Ports.SerialPort myPort = new System.IO.Ports.SerialPort("COM10",4800,System.IO.Ports.Parity.None,8);
+        System.IO.Ports.SerialPort myPort = new System.IO.Ports.SerialPort("COM10", 4800, System.IO.Ports.Parity.None, 8);
         public myForm()
         {
             InitializeComponent();
@@ -44,6 +45,8 @@ namespace ErgoBikeDrive
             {
                 txtPower.Enabled = false;
             }
+            lblByte.Visible = false;
+            btnClearBytes.Visible = false;
         }
 
         private void txtPower_TextChanged(object sender, EventArgs e)
@@ -58,9 +61,9 @@ namespace ErgoBikeDrive
             {
                 System.Text.ASCIIEncoding aa = new System.Text.ASCIIEncoding();
 
-                byte[] crMessage = aa.GetBytes(System.Windows.Forms.Keys.Return.ToString());
+                byte[] crMessage = Encoding.UTF8.GetBytes("\r");
                 byte[] powerStartMessage = aa.GetBytes("W");
-                string s = txtPower.Text;
+                string s = txtPower.Text.Trim();
                 s = s.PadLeft(3, '0');
                 byte[] powerMessage = aa.GetBytes(s);
                 if (!myPort.IsOpen)
@@ -68,8 +71,14 @@ namespace ErgoBikeDrive
                 if (myPort.IsOpen)
                 {
                     myPort.Write(powerStartMessage, 0, powerStartMessage.Length);
-                    myPort.Write(crMessage, 0, powerMessage.Length);
+                    myPort.Write(powerMessage, 0, powerMessage.Length);
                     myPort.Write(crMessage, 0, crMessage.Length);
+                    if (checkShowBytes.Checked)
+                    {
+                        ShowBytes(powerStartMessage, false);
+                        ShowBytes(powerMessage, true);
+                        ShowBytes(crMessage, false);
+                    }
                     lblMessage.Text = "Power message is sent...";
                     lblMessage.ForeColor = Color.Lime;
                 }
@@ -103,7 +112,7 @@ namespace ErgoBikeDrive
         {
             System.Text.ASCIIEncoding aa = new System.Text.ASCIIEncoding();
             byte[] startMessage = aa.GetBytes("s");
-            byte[] crMessage = aa.GetBytes(System.Windows.Forms.Keys.Return.ToString());
+            byte[] crMessage = Encoding.UTF8.GetBytes("\r");
             byte[] stopMessage = aa.GetBytes("F");
             if (!onOffState)
             { //Starting the Bike.
@@ -120,6 +129,11 @@ namespace ErgoBikeDrive
                 {
                     myPort.Write(startMessage, 0, startMessage.Length);
                     myPort.Write(crMessage, 0, crMessage.Length);
+                    if (checkShowBytes.Checked)
+                    {
+                        ShowBytes(startMessage,false);
+                        ShowBytes(crMessage, false);
+                    }
                     lblMessage.Text = "Bike is started...";
                     lblMessage.ForeColor = Color.Lime;
                 }
@@ -135,7 +149,7 @@ namespace ErgoBikeDrive
                 onOffSwitch.Text = "Start";
                 txtPower.Text = "";
                 txtPower.Enabled = false;
-                
+
                 byte[] zeroPowerMessage = aa.GetBytes("000");
                 byte[] powerStartMessage = aa.GetBytes("W");
                 if (!myPort.IsOpen)
@@ -149,6 +163,15 @@ namespace ErgoBikeDrive
                     //Stop message sent
                     myPort.Write(stopMessage, 0, stopMessage.Length);
                     myPort.Write(crMessage, 0, crMessage.Length);
+                    if (checkShowBytes.Checked)
+                    {
+                        ShowBytes(powerStartMessage, false);
+                        ShowBytes(zeroPowerMessage, true);
+                        ShowBytes(crMessage, false);
+                        ShowBytes(stopMessage, false);
+                        ShowBytes(crMessage, false);
+                    }
+                    myPort.Close();
                     lblMessage.Text = "Bike is stopped...";
                     lblMessage.ForeColor = Color.Lime;
                 }
@@ -161,6 +184,57 @@ namespace ErgoBikeDrive
             myPort.PortName = comboPorts.SelectedItem.ToString();
         }
 
-        
+        private void ShowBytes(byte[] mess, bool isPower)
+        {
+            if (checkShowBytes.Checked)
+            {
+                lblByte.Text += "\nMessage:";
+
+
+                string bitText = "";
+                var bits = new BitArray(mess);
+                int byteCounter = 1;
+                string temptext = "";
+                for (int i = 0; i < bits.Length; i++)
+                {
+                    if (bits[i])
+                        bitText = "1" + bitText;
+                    else
+                        bitText = "0" + bitText;
+                    if (byteCounter == 8)
+                    {
+                        bitText = "\n" + bitText;
+                        byteCounter = 0;
+                        if (isPower)
+                            temptext += bitText.Substring(0,9);
+                    }
+                    byteCounter++;
+                }
+                if (isPower)
+                    bitText = temptext;
+                lblByte.Text += bitText + "\n";
+            }
+            btnClearBytes.Visible = true;
+        }
+
+        private void checkShowBytes_CheckedChanged(object sender, EventArgs e)
+        {
+            
+            if (checkShowBytes.Checked)
+            {
+                lblByte.Visible = true;
+            }
+            else
+            {
+                lblByte.Visible = false;
+                btnClearBytes.Visible = false;
+            }
+            System.Text.ASCIIEncoding aa = new System.Text.ASCIIEncoding();
+        }
+
+        private void btnClearBytes_Click(object sender, EventArgs e)
+        {
+            lblByte.Text = "Bytes: ";
+        }
     }
 }

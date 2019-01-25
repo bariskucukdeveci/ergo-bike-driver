@@ -37,6 +37,9 @@
             this.lblPorts = new System.Windows.Forms.Label();
             this.comboPorts = new System.Windows.Forms.ComboBox();
             this.lblMessage = new System.Windows.Forms.Label();
+            this.lblByte = new System.Windows.Forms.Label();
+            this.checkShowBytes = new System.Windows.Forms.CheckBox();
+            this.btnClearBytes = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblPower
@@ -118,10 +121,45 @@
             // 
             this.lblMessage.AutoSize = true;
             this.lblMessage.Font = new System.Drawing.Font("Cambria", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.lblMessage.Location = new System.Drawing.Point(416, 302);
+            this.lblMessage.Location = new System.Drawing.Point(410, 283);
             this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(0, 20);
+            this.lblMessage.Size = new System.Drawing.Size(21, 20);
             this.lblMessage.TabIndex = 8;
+            this.lblMessage.Text = "...";
+            // 
+            // lblByte
+            // 
+            this.lblByte.AutoSize = true;
+            this.lblByte.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.lblByte.Location = new System.Drawing.Point(405, 347);
+            this.lblByte.Name = "lblByte";
+            this.lblByte.Size = new System.Drawing.Size(53, 17);
+            this.lblByte.TabIndex = 9;
+            this.lblByte.Text = "Bytes:";
+            // 
+            // checkShowBytes
+            // 
+            this.checkShowBytes.AutoSize = true;
+            this.checkShowBytes.Location = new System.Drawing.Point(408, 313);
+            this.checkShowBytes.Name = "checkShowBytes";
+            this.checkShowBytes.Size = new System.Drawing.Size(133, 21);
+            this.checkShowBytes.TabIndex = 10;
+            this.checkShowBytes.Text = "Show sent bytes";
+            this.checkShowBytes.UseVisualStyleBackColor = true;
+            this.checkShowBytes.CheckedChanged += new System.EventHandler(this.checkShowBytes_CheckedChanged);
+            // 
+            // btnClearBytes
+            // 
+            this.btnClearBytes.BackColor = System.Drawing.Color.Black;
+            this.btnClearBytes.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnClearBytes.ForeColor = System.Drawing.Color.White;
+            this.btnClearBytes.Location = new System.Drawing.Point(537, 347);
+            this.btnClearBytes.Name = "btnClearBytes";
+            this.btnClearBytes.Size = new System.Drawing.Size(87, 30);
+            this.btnClearBytes.TabIndex = 11;
+            this.btnClearBytes.Text = "Clear";
+            this.btnClearBytes.UseVisualStyleBackColor = false;
+            this.btnClearBytes.Click += new System.EventHandler(this.btnClearBytes_Click);
             // 
             // myForm
             // 
@@ -129,6 +167,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(737, 452);
+            this.Controls.Add(this.btnClearBytes);
+            this.Controls.Add(this.checkShowBytes);
+            this.Controls.Add(this.lblByte);
             this.Controls.Add(this.lblMessage);
             this.Controls.Add(this.comboPorts);
             this.Controls.Add(this.lblPorts);
@@ -157,6 +198,9 @@
         private System.Windows.Forms.Label lblPorts;
         private System.Windows.Forms.ComboBox comboPorts;
         private System.Windows.Forms.Label lblMessage;
+        private System.Windows.Forms.Label lblByte;
+        private System.Windows.Forms.CheckBox checkShowBytes;
+        private System.Windows.Forms.Button btnClearBytes;
     }
 }
 
