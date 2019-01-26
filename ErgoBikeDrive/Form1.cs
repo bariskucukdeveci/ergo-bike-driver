@@ -190,10 +190,11 @@ namespace ErgoBikeDrive
             {
                 lblByte.Text += "\nMessage:";
 
-
+                string strMessage = Encoding.ASCII.GetString(mess);
                 string bitText = "";
                 var bits = new BitArray(mess);
                 int byteCounter = 1;
+                int byteIndex = 0;
                 string temptext = "";
                 for (int i = 0; i < bits.Length; i++)
                 {
@@ -206,7 +207,20 @@ namespace ErgoBikeDrive
                         bitText = "\n" + bitText;
                         byteCounter = 0;
                         if (isPower)
-                            temptext += bitText.Substring(0,9);
+                        {
+                            temptext += bitText.Substring(0, 9);
+                            temptext += " = " + strMessage.ToCharArray()[byteIndex];
+                            byteIndex++;
+                        }
+                        else
+                        {
+                            if (strMessage != "\r")
+                                bitText += " = " + strMessage.ToCharArray()[byteIndex];
+                            else
+                                bitText += " = <CR>";
+                            byteIndex++;
+                        }
+                            
                     }
                     byteCounter++;
                 }
@@ -229,7 +243,20 @@ namespace ErgoBikeDrive
                 lblByte.Visible = false;
                 btnClearBytes.Visible = false;
             }
-            System.Text.ASCIIEncoding aa = new System.Text.ASCIIEncoding();
+            //System.Text.ASCIIEncoding aa = new System.Text.ASCIIEncoding();
+            //byte[] startMessage = aa.GetBytes("s");
+            //byte[] crMessage = Encoding.UTF8.GetBytes("\r");
+            //byte[] stopMessage = aa.GetBytes("F");
+            //byte[] zeroPowerMessage = aa.GetBytes("025");
+            //byte[] powerStartMessage = aa.GetBytes("W");
+            //ShowBytes(startMessage, false);
+            //ShowBytes(crMessage, false);
+            //ShowBytes(powerStartMessage, false);
+            //ShowBytes(zeroPowerMessage, true);
+            //ShowBytes(crMessage, false);
+            //ShowBytes(stopMessage, false);
+            //ShowBytes(crMessage, false);
+
         }
 
         private void btnClearBytes_Click(object sender, EventArgs e)
